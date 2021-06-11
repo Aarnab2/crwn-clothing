@@ -1,7 +1,7 @@
 import React from 'react'
 import './App.css';
 import HomePage from './pages/homepage/homepage.component'
-import { Route } from 'react-router-dom' 
+import { Switch , Route , Redirect } from 'react-router-dom' 
 import ShopPage from './pages/shop/shop.component'
 import Header from './components/header/header.component'
 import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component'
@@ -57,16 +57,23 @@ componentWillUnmount(){
     return (
       <div>
         <Header ></Header>
-        <switch>
+        <Switch>
         <Route  exact path='/' component={HomePage}></Route>
         <Route  path='/shop' component={ShopPage}></Route>
-        <Route  path='/signin' component={SignInAndSignUpPage}></Route>
-        </switch>
+        {/* <Route  path='/signin' component={SignInAndSignUpPage}></Route> */}
+        <Route  path='/signin' render = { () => {return this.props.currentUser ? (<Redirect to='/'/>) : (<SignInAndSignUpPage/>)}}></Route> 
+        </Switch>
   
       </div>
     );
   }
   
+}
+
+const mapStateToProps = state =>{
+  return{
+    currentUser:state.user.currentUser
+  }
 }
 
 const mapDispatchToProps = dispatch => {
@@ -75,4 +82,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(null,mapDispatchToProps)(App);
+export default connect(mapStateToProps , mapDispatchToProps)(App);
