@@ -10,6 +10,7 @@ import { auth , createUserProfileDocument } from './firebase/firebase.utils'
 import {connect} from 'react-redux'
 import { setCurrentUser } from './redux/user/user.action';
 import {selectCurrentUser} from './redux/user/user.selector'
+//import {selectCollectionsForPreview} from './redux/shop/shop.selectors'
 import {createStructuredSelector} from 'reselect'
 // const HatsPage = (props)=>{
 //   console.log(props)
@@ -43,11 +44,10 @@ this.props.setCurrentUser({
   ...snapshot.data() 
 })
 })
-
   }
   // this.setState({currentUser:userAuth})
   this.props.setCurrentUser(userAuth)
-  
+//addCollectionAndDocuments('collections',this.props.collectionsArray.map(({title , items}) => ({title,items})))
   }
   )
 }
@@ -81,6 +81,7 @@ componentWillUnmount(){
 // }
 const mapStateToProps = createStructuredSelector({
     currentUser:selectCurrentUser
+    //collectionsArray:selectCollectionsForPreview
   }
 )
 
