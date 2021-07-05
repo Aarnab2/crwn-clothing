@@ -1,4 +1,4 @@
-import React from 'react'
+import React , {useEffect} from 'react'
 import './App.css';
 import HomePage from './pages/homepage/homepage.component'
 import { Switch , Route , Redirect } from 'react-router-dom' 
@@ -20,7 +20,7 @@ import { checkUserSession } from './redux/user/user.actions';
 //   </div>
 // }
 
-class App extends React.Component {
+const App = ({checkUserSession , currentUser})=> {
   // constructor(){
   //   super();
   //   this.state = {
@@ -28,11 +28,15 @@ class App extends React.Component {
   //   }
   // }
 
- unsubscribeFromAuth = null;
+ //unsubscribeFromAuth = null;
 
-componentDidMount(){
-const {checkUserSession} = this.props
-checkUserSession()
+useEffect(()=>{
+  checkUserSession()
+},[checkUserSession])
+
+// componentDidMount(){
+// const {checkUserSession} = this.props
+// checkUserSession()
 //   this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth)=>{
 // if(userAuth){
 // const userRef = await createUserProfileDocument(userAuth)
@@ -53,13 +57,13 @@ checkUserSession()
 // //addCollectionAndDocuments('collections',this.props.collectionsArray.map(({title , items}) => ({title,items})))
 //   }
 //   )
-}
+//}
 
-componentWillUnmount(){
-  this.unsubscribeFromAuth()
-}
+// componentWillUnmount(){
+//   this.unsubscribeFromAuth()
+// }
 
-  render(){
+ 
     return (
       <div>
         <Header ></Header>
@@ -68,12 +72,12 @@ componentWillUnmount(){
         <Route  path='/shop' component={ShopPage}></Route>
         <Route  path='/checkout' component={CheckoutPage}></Route>
         {/* <Route  path='/signin' component={SignInAndSignUpPage}></Route> */}
-        <Route  path='/signin' render = { () => {return this.props.currentUser ? (<Redirect to='/'/>) : (<SignInAndSignUpPage/>)}}></Route> 
+        <Route  path='/signin' render = { () => {return currentUser ? (<Redirect to='/'/>) : (<SignInAndSignUpPage/>)}}></Route> 
         </Switch>
   
       </div>
     );
-  }
+  
   
 }
 
